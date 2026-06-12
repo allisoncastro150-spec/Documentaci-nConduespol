@@ -138,7 +138,7 @@ app.post("/api/documents", requireAuth, upload.single("file"), async (req, res) 
 
   const result = await pool.query(
     `INSERT INTO documents
-      (code, original_name, stored_name, mime_type, file_size, storage_path, department_id, uploaded_by)
+      (code, original_name, stored_name, mime_type, file_size, storage_path, department_id, uploaded_by, file_hash)
      VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
      RETURNING id, code, original_name, uploaded_at`,
     [
@@ -150,6 +150,7 @@ app.post("/api/documents", requireAuth, upload.single("file"), async (req, res) 
       storagePath,
       departmentId,
       req.user.id,
+      fileHash,
     ],
   );
 
