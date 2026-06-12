@@ -278,6 +278,17 @@ async function handleApi(req, res, url) {
       sendJson(res, 400, { message: "Selecciona un archivo." });
       return;
     }
+    const existingDocument = db.documents.find(
+      (doc) =>
+        doc.originalName.toLowerCase() === file.originalName.toLowerCase()
+    );
+    
+    if (existingDocument) {
+      sendJson(res, 400, {
+        message: "Este archivo ya fue subido anteriormente."
+      });
+      return;
+    }
 
     const department = user.role === "admin" ? fields.department : user.department;
     if (!db.departments.some((item) => item.name === department)) {
