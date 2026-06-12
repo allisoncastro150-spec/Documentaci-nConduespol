@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS documents (
   code TEXT NOT NULL UNIQUE,
   original_name TEXT NOT NULL,
   stored_name TEXT NOT NULL,
+  file_hash TEXT NOT NULL UNIQUE,
   mime_type TEXT NOT NULL,
   file_size BIGINT NOT NULL,
   storage_path TEXT NOT NULL,
