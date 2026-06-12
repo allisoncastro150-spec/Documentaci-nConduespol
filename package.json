@@ -7,7 +7,7 @@
     "preview": "node src/preview-server.js",
     "dev": "node src/preview-server.js",
     "start": "node src/preview-server.js",
-    "start": "node src/server.js"
+    "start": "node src/preview-server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
