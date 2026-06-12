@@ -224,7 +224,9 @@ $("#uploadForm").addEventListener("submit", async (event) => {
       body: form,
       headers: {},
     });
-    event.currentTarget.reset();
+    if (event.currentTarget) {
+      event.currentTarget.reset();
+    }
     setMessage(result, `Documento guardado correctamente. Codigo: ${doc.code}`);
     await refreshStats();
     await refreshDocuments();
