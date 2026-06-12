@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: docuconduespol-platform
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: ADMIN_DELETE_KEY
+        value: ADMINISTRADOR_Eliminar

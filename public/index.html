@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DOCUCONDUESPOL</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <section id="loginScreen" class="login-screen">
+      <div class="login-card">
+        <img src="/logo.png" onerror="this.src='/logo-placeholder.svg'" alt="Logo de la empresa" />
+        <div>
+          <p class="eyebrow">Acceso privado</p>
+          <h1>Gestion documental</h1>
+        </div>
+        <form id="loginForm">
+          <label>Usuario
+            <input name="username" autocomplete="username" required />
+          </label>
+          <label>Contraseña
+            <input name="password" type="password" autocomplete="current-password" required />
+          </label>
+          <button type="submit">Iniciar sesion</button>
+        </form>
+        <div id="loginResult" class="result hidden"></div>
+        <p class="hint">Admin inicial: <strong>admin</strong> / <strong>admin2026</strong></p>
+      </div>
+    </section>
+
+    <div id="appShell" class="app-shell hidden">
+      <aside class="sidebar">
+        <div class="brand">
+          <img src="/logo.png" onerror="this.src='/logo-placeholder.svg'" alt="Logo de la empresa" />
+        </div>
+        <nav class="nav">
+          <button class="nav-item active" data-view="dashboard">Panel</button>
+          <button class="nav-item" data-view="upload">Subir archivo</button>
+          <button class="nav-item" data-view="search">Buscar</button>
+          <button class="nav-item admin-only" data-view="users">Usuarios</button>
+          <button class="nav-item" data-view="settings">Configuracion</button>
+        </nav>
+        <div class="sidebar-footer">
+          <span>Sesion</span>
+          <strong id="sessionName"></strong>
+          <small id="sessionRole"></small>
+          <button id="logoutButton" class="logout-button">Cerrar sesion</button>
+        </div>
+      </aside>
+
+      <main class="shell">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Plataforma empresarial</p>
+            <h1>Gestion documental</h1>
+          </div>
+          <div class="user-chip">
+            <span class="status-dot"></span>
+            <span id="userChipLabel"></span>
+          </div>
+        </header>
+
+        <section id="dashboard" class="view active">
+          <div class="metrics">
+            <article class="metric">
+              <span>Documentos</span>
+              <strong id="metricDocuments">0</strong>
+              <small>Registrados en sistema</small>
+            </article>
+            <article class="metric">
+              <span>Departamentos</span>
+              <strong id="metricDepartments">0</strong>
+              <small>Con acceso documental</small>
+            </article>
+            <article class="metric">
+              <span>Subidos hoy</span>
+              <strong id="metricToday">0</strong>
+              <small>Segun fecha real de carga</small>
+            </article>
+            <article class="metric">
+              <span>Usuarios</span>
+              <strong id="metricUsers">0</strong>
+              <small>Activos y controlados</small>
+            </article>
+          </div>
+
+          <div class="content-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <h2>Documentos recientes</h2>
+                <button class="ghost nav-shortcut" data-view="search">Ver todos</button>
+              </div>
+              <div id="recentDocuments" class="table"></div>
+            </section>
+
+            <section class="panel compact">
+              <h2>Control por departamento</h2>
+              <div class="dept-list">
+                <span><b>SG</b> Secretaria General</span>
+                <span><b>AF</b> Activos Fijos</span>
+                <span><b>EC</b> Educacion Continua</span>
+                <span><b>TI</b> TICS</span>
+                <span><b>CO</b> Comercio</span>
+                <span><b>CC</b> CallCenter</span>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section id="upload" class="view">
+          <section class="panel form-panel">
+            <h2>Subir archivo</h2>
+            <form id="uploadForm">
+              <label>Departamento
+                <select id="uploadDepartment" name="department"></select>
+              </label>
+              <label>Archivo
+                <input type="file" name="file" required />
+              </label>
+              <label>Descripcion interna
+                <textarea name="description" rows="4" placeholder="Ej. contrato, acta, informe, respaldo..."></textarea>
+              </label>
+              <button type="submit">Guardar documento</button>
+            </form>
+            <div id="uploadResult" class="result hidden"></div>
+          </section>
+        </section>
+
+        <section id="search" class="view">
+          <section class="panel form-panel">
+            <h2>Buscar archivo</h2>
+            <form id="searchForm" class="search-form">
+              <label>Codigo
+                <input name="code" placeholder="SG-2026-000001" />
+              </label>
+              <label>Palabra clave
+                <input name="q" placeholder="contrato, acta, informe..." />
+              </label>
+              <label>Departamento
+                <select id="searchDepartment" name="department"></select>
+              </label>
+              <label>Desde
+                <input type="date" name="from" />
+              </label>
+              <label>Hasta
+                <input type="date" name="to" />
+              </label>
+              <button type="submit">Buscar</button>
+            </form>
+          </section>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Resultados</h2>
+              <span class="muted">Busqueda segun permisos del usuario</span>
+            </div>
+            <div id="results" class="table"></div>
+          </section>
+        </section>
+
+        <section id="users" class="view admin-only">
+          <div class="admin-grid">
+            <section class="panel form-panel">
+              <h2>Crear usuario</h2>
+              <form id="createUserForm">
+                <label>Usuario
+                  <input name="username" required />
+                </label>
+                <label>Contraseña temporal
+                  <input name="password" type="password" value="Temp2026" required />
+                </label>
+                <label>Rol
+                  <select id="roleSelect" name="role">
+                    <option value="user">user</option>
+                    <option value="admin">admin</option>
+                  </select>
+                </label>
+                <label>Departamento
+                  <select id="newUserDepartment" name="department"></select>
+                </label>
+                <button type="submit">Crear usuario</button>
+              </form>
+              <div id="userResult" class="result hidden"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <h2>Usuarios registrados</h2>
+                <span class="muted">Eliminar requiere clave admin</span>
+              </div>
+              <div id="usersTable" class="table"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="settings" class="view">
+          <section class="panel form-panel">
+            <h2>Configuracion</h2>
+            <div class="settings-list">
+              <p><strong>Logo:</strong> coloca el archivo real en <code>public/logo.png</code>.</p>
+              <p><strong>Archivos:</strong> se guardan fisicamente en <code>uploads</code>.</p>
+              <p><strong>Datos locales:</strong> usuarios y documentos se guardan en <code>data/app-db.json</code>.</p>
+              <p><strong>Clave para eliminar usuarios:</strong> <code>ADMINISTRADOR_Eliminar</code>.</p>
+              <p><strong>Produccion web:</strong> para internet conviene desplegar en Render, Railway, DigitalOcean o VPS con PostgreSQL y almacenamiento persistente.</p>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

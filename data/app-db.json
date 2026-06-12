@@ -1,0 +1,50 @@
+{
+  "departments": [
+    {
+      "id": "sg",
+      "name": "Secretaria General",
+      "code": "SG"
+    },
+    {
+      "id": "af",
+      "name": "Activos Fijos",
+      "code": "AF"
+    },
+    {
+      "id": "ec",
+      "name": "Educacion Continua",
+      "code": "EC"
+    },
+    {
+      "id": "ti",
+      "name": "TICS",
+      "code": "TI"
+    },
+    {
+      "id": "co",
+      "name": "Comercio",
+      "code": "CO"
+    },
+    {
+      "id": "cc",
+      "name": "CallCenter",
+      "code": "CC"
+    }
+  ],
+  "users": [
+    {
+      "id": "83c5911a-2f97-49e9-8a4d-c941cd59c9fd",
+      "username": "admin",
+      "passwordHash": "6051fc84a7a0d74c225fb18a496b09952da5642e60723ecae543298edd7d82d6",
+      "role": "admin",
+      "department": "TODOS",
+      "active": true
+    }
+  ],
+  "documents": [
+    
+    
+  ],
+  "counters": {
+  }
+}
