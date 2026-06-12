@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const path = require("path");
 const fs = require("fs");
+const crypto = require("crypto");
 const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
@@ -57,7 +58,10 @@ function buildDocumentCode(departmentCode) {
   const sequence = String(Math.floor(Math.random() * 999999)).padStart(6, "0");
   return `${departmentCode}-${year}-${sequence}`;
 }
-
+function getFileHash(filePath) {
+  const buffer = fs.readFileSync(filePath);
+  return crypto.createHash("sha256").update(buffer).digest("hex");
+}
 app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
   const result = await pool.query(
@@ -105,7 +109,20 @@ app.post("/api/documents", requireAuth, upload.single("file"), async (req, res) 
   if (!req.file) {
     return res.status(400).json({ message: "Archivo requerido" });
   }
+  const fileHash = getFileHash(req.file.path);
 
+  const existingFile = await pool.query(
+    "SELECT id FROM documents WHERE file_hash = $1",
+    [fileHash]
+  );
+
+  if (existingFile.rows.length > 0) {
+    fs.unlinkSync(req.file.path);
+  
+    return res.status(400).json({
+      message: "Este archivo ya fue subido anteriormente",
+    });
+  }
   const { departmentId } = req.body;
   const dept = await pool.query("SELECT id, code FROM departments WHERE id = $1", [departmentId]);
 
