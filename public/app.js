@@ -74,9 +74,19 @@ function applyRole() {
   }
 }
 function fillDepartments() {
-  const options = state.departments.map((department) => `<option>${department.name}</option>`).join("");
+  const options = state.departments
+    .map((department) => `<option>${department.name}</option>`)
+    .join("");
+
   $("#uploadDepartment").innerHTML = options;
-  $("#searchDepartment").innerHTML = `<option value="">Todos</option>${options}`;
+
+  if (state.user?.role !== "admin") {
+    $("#uploadDepartment").value = state.user.department;
+  }
+
+  $("#searchDepartment").innerHTML =
+    `<option value="">Todos</option>` + options;
+
   $("#newUserDepartment").innerHTML = options;
 }
 
