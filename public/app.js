@@ -283,13 +283,15 @@ $("#usersTable").addEventListener("click", async (event) => {
   try {
     await api(`/api/users/${encodeURIComponent(username)}?key=${encodeURIComponent(key)}`, {
       method: "DELETE",
-    });
+  });
+
+    alert("Usuario eliminado correctamente.");
+
     await refreshUsers();
     await refreshStats();
   } catch (error) {
     alert(error.message);
   }
-});
 
 $("#roleSelect").addEventListener("change", (event) => {
   $("#newUserDepartment").disabled = event.target.value === "admin";
