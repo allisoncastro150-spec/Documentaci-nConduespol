@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "description": "Plataforma empresarial para gestion documental por usuarios, departamentos y codigos unicos.",
-  "scripts": {
+   "scripts": {
     "preview": "node src/preview-server.js",
     "dev": "node src/preview-server.js",
-    "start": "node src/preview-server.js",
     "start": "node src/preview-server.js"
   },
   "dependencies": {
