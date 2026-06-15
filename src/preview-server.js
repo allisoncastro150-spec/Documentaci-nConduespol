@@ -357,8 +357,10 @@ async function handleApi(req, res, url) {
 
     const body = await parseJsonBody(req);
     const db = readDb();
-    if (!body.username || !body.password || !body.department || !body.role) {
-      sendJson(res, 400, { message: "Completa usuario, clave, rol y departamento." });
+    if (!body.username || !body.password || !body.role) {
+      sendJson(res, 400, {
+        message: "Completa usuario, clave y rol."
+      });
       return;
     }
     if (db.users.some((item) => item.username === body.username)) {
