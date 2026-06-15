@@ -54,12 +54,25 @@ function showView(name) {
 
 function applyRole() {
   const isAdmin = state.user?.role === "admin";
-  $$(".admin-only").forEach((item) => item.classList.toggle("hidden", !isAdmin));
+
+  $$(".admin-only").forEach((item) =>
+    item.classList.toggle("hidden", !isAdmin)
+  );
+
   $("#sessionName").textContent = state.user?.username || "";
   $("#sessionRole").textContent = isAdmin ? "Administrador" : "Usuario";
-  $("#userChipLabel").textContent = `${state.user?.username || ""} · ${isAdmin ? "Administrador" : state.user?.department}`;
-}
 
+  $("#userChipLabel").textContent =
+    `${state.user?.username || ""} · ${
+      isAdmin ? "Administrador" : state.user?.department
+    }`;
+
+  const uploadDepartment = $("#uploadDepartment");
+
+  if (!isAdmin) {
+    uploadDepartment.disabled = true;
+  }
+}
 function fillDepartments() {
   const options = state.departments.map((department) => `<option>${department.name}</option>`).join("");
   $("#uploadDepartment").innerHTML = options;
