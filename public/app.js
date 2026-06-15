@@ -237,8 +237,10 @@ $$(".nav-shortcut").forEach((button) => {
 
 $("#uploadForm").addEventListener("submit", async (event) => {
   event.preventDefault();
+
   const result = $("#uploadResult");
   result.classList.add("hidden");
+
   const form = new FormData(event.currentTarget);
 
   try {
@@ -247,14 +249,28 @@ $("#uploadForm").addEventListener("submit", async (event) => {
       body: form,
       headers: {},
     });
+
     if (event.currentTarget) {
       event.currentTarget.reset();
     }
-    setMessage(result, `Documento guardado correctamente. Codigo: ${doc.code}`);
+
+    setMessage(
+      result,
+      `Documento guardado correctamente. Codigo: ${doc.code}`
+    );
+
+    alert(
+      `Documento guardado correctamente.\n\nCódigo asignado: ${doc.code}`
+    );
+
     await refreshStats();
     await refreshDocuments();
+
   } catch (error) {
+
     setMessage(result, error.message, "error");
+
+    alert(error.message);
   }
 });
 
